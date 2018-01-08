@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element label="Index Card Excersice Statistics" max_length="40" name="x_183655_karteikas_index_card_excersice_statistics" type="collection">
+        <element label="Current box" max_length="40" name="current_box" type="integer"/>
+        <element label="Number completed Exercises" max_length="40" name="number_completed_exercises" type="integer"/>
+        <element label="User" max_length="32" name="user" reference="sys_user" type="reference"/>
+        <index name="index">
+            <element name="user"/>
+        </index>
+    </element>
+</database>
