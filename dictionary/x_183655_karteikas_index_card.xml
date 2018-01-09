@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <database>
     <element label="Index Card" max_length="40" name="x_183655_karteikas_index_card" type="collection">
+        <element label="Info 1" max_length="500" name="info_1" type="string_full_utf8"/>
+        <element label="Info 2" max_length="500" name="info_2" type="string_full_utf8"/>
         <element label="Side 1" mandatory="true" max_length="400" name="side_1" type="string_full_utf8"/>
         <element label="Side 2" mandatory="true" max_length="400" name="side_2" type="string_full_utf8"/>
     </element>
