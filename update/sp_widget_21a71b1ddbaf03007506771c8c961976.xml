@@ -2,7 +2,7 @@
 <record_update table="sp_widget">
     <sp_widget action="INSERT_OR_UPDATE">
         <category>custom</category>
-        <client_script><![CDATA[function() {
+        <client_script><![CDATA[function($rootScope) {
   /* widget controller */
   var c = this;
 	
@@ -12,6 +12,12 @@
 		console.log('switchSides called.');
 		c.isSide1 = !c.isSide1;
 		console.log('isSide1 = ' + c.isSide1);
+	}
+	
+	c.selectCard = function(idx) {
+		var id = c.data.indexCards[idx].sys_id;
+		$rootScope.cardSysID = id;
+		$rootScope.$emit('selectCard', id);
 	}
 	
 }]]></client_script>
@@ -30,23 +36,23 @@
         <option_schema/>
         <public>false</public>
         <roles/>
-        <script><![CDATA[(function() {
-  /* populate the 'data' object */
-  /* e.g., data.table = $sp.getValue('table'); */
-	
+        <script><![CDATA[(function($rootScope) {
+	/* populate the 'data' object */
+	/* e.g., data.table = $sp.getValue('table'); */
+
 	data.indexCards = [];
-	
+
 	var grIndexCards = new GlideRecord('x_183655_karteikas_index_card');
 	grIndexCards.query();
-	
+
 	while(grIndexCards.next()) {
-		
+
 		var indexCard = {};
-		$sp.getRecordDisplayValues(indexCard, grIndexCards, 'side_1, side_2');
-		
+		$sp.getRecordDisplayValues(indexCard, grIndexCards, 'side_1, side_2, sys_id');
+
 		data.indexCards.push(indexCard);
 	}
-	
+
 
 })();]]></script>
         <servicenow>false</servicenow>
@@ -54,32 +60,33 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2018-01-08 14:48:11</sys_created_on>
         <sys_id>21a71b1ddbaf03007506771c8c961976</sys_id>
-        <sys_mod_count>51</sys_mod_count>
+        <sys_mod_count>73</sys_mod_count>
         <sys_name>Karteikarten Liste</sys_name>
         <sys_package display_value="Karteikasten" source="x_183655_karteikas">7fd11715dbaf03007506771c8c961915</sys_package>
         <sys_policy/>
         <sys_scope display_value="Karteikasten">7fd11715dbaf03007506771c8c961915</sys_scope>
         <sys_update_name>sp_widget_21a71b1ddbaf03007506771c8c961976</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2018-01-10 10:22:18</sys_updated_on>
+        <sys_updated_on>2018-01-10 13:37:13</sys_updated_on>
         <template><![CDATA[<div class="panel panel-default">
   <div class="panel-heading clearfix">
-    <div class="row">
-      <h3 class="panel-title col-md-9 pull-left">
-        ${Karteikarten}
+      <h3>
+        Karteikarten
       </h3>
-      <div class="col-md-3 pull-right">
-        <button class="btn btn-default" ng-click="c.switchSides()">Seiten wechseln</button>
-      </div>
-    </div>      
+      <div>
+        <button class="btn btn-default" ng-click="c.switchSides()"><span class="glyphicon glyphicon-retweet"></span></button>
+      </div>    
   </div>
+  
   <div class="list-group">
     <a class="list-group-item" ng-repeat="card in data.indexCards">
-      <h4 class="list-group-item-heading" ng-show="c.isSide1">
-        {{card.side_1}}
-      </h4>
-       <h4 class="list-group-item-heading" ng-hide="c.isSide1">
-        {{card.side_2}}
+      <h4 class="list-group-item-heading" ng-click="c.selectCard($index)">
+        <div ng-show="c.isSide1">
+          {{card.side_1}}  
+        </div>
+        <div ng-hide="c.isSide1">
+          {{card.side_2}}  
+        </div>
       </h4>
     </a>
   </div>

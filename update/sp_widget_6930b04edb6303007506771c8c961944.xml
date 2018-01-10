@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sp_widget">
+    <sp_widget action="INSERT_OR_UPDATE">
+        <category>custom</category>
+        <client_script><![CDATA[function($rootScope) {
+  /* widget controller */
+  var c = this;
+	
+	$rootScope.$on('selectCard', function(event, data){
+		console.log('Received event for card ' + $rootScope.cardSysID);
+		c.server.get({
+			action: 'getCard',
+			cardSysID: $rootScope.cardSysID
+		}).then(function(r){
+			console.log('Loaded card ' + r.data);
+			c.data.vorderseite = r.data.card.side_1;
+			c.data.rueckseite = r.data.card.side_2;
+		});
+	})
+}]]></client_script>
+        <controller_as>c</controller_as>
+        <css/>
+        <data_table>sp_instance</data_table>
+        <demo_data/>
+        <description/>
+        <docs/>
+        <field_list/>
+        <has_preview>false</has_preview>
+        <id>karteikarteansicht</id>
+        <internal>false</internal>
+        <link/>
+        <name>karteikarteAnsicht</name>
+        <option_schema/>
+        <public>false</public>
+        <roles/>
+        <script><![CDATA[(function() {
+	
+	if (input && input.cardSysID) {
+		console.log('Server side script: ' + input.cardSysID);
+		var card = new GlideRecord('x_183655_karteikas_index_card');
+		if (card.get(input.cardSysID)) {
+			data.card = {};
+			$sp.getRecordDisplayValues(data.card, card, 'side_1, side_2');
+			console.log('Server side script card: ' + data.card);
+		}
+	}
+
+})();]]></script>
+        <servicenow>false</servicenow>
+        <sys_class_name>sp_widget</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2018-01-10 10:32:06</sys_created_on>
+        <sys_id>6930b04edb6303007506771c8c961944</sys_id>
+        <sys_mod_count>22</sys_mod_count>
+        <sys_name>karteikarteAnsicht</sys_name>
+        <sys_package display_value="Karteikasten" source="x_183655_karteikas">7fd11715dbaf03007506771c8c961915</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Karteikasten">7fd11715dbaf03007506771c8c961915</sys_scope>
+        <sys_update_name>sp_widget_6930b04edb6303007506771c8c961944</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2018-01-10 13:38:30</sys_updated_on>
+        <template><![CDATA[<div class="panel panel-default">
+  <div class="panel-heading clearfix">
+    <h3 class="panel-title col-md-9 pull-left">
+      ${Karteikarte}
+    </h3>     
+  </div>
+  
+  <div class="panel-body">
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <div class="panel-title">
+          {{data.vorderseite}}
+        </div>
+      </div>
+    </div>
+  </div>
+  
+    <div class="panel-body">
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <div class="panel-title">
+          {{data.rueckseite}}
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+</div>]]></template>
+    </sp_widget>
+</record_update>
