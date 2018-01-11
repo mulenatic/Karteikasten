@@ -3,11 +3,19 @@
     <sp_widget action="INSERT_OR_UPDATE">
         <category>custom</category>
         <client_script><![CDATA[function($rootScope) {
-  /* widget controller */
-  var c = this;
-	
+	/* widget controller */
+	var c = this;
+
+	resetValues = function() {
+		c.solutionReadable = false;
+		c.infoVorderseiteVisible = false;
+		c.infoRueckseiteVisible = false;
+	}
+
+	resetValues();
+
 	$rootScope.$on('selectCard', function(event, data){
-		console.log('Received event for card ' + $rootScope.cardSysID);
+		resetValues();
 		c.server.get({
 			action: 'getCard',
 			cardSysID: $rootScope.cardSysID
@@ -15,8 +23,35 @@
 			console.log('Loaded card ' + r.data);
 			c.data.vorderseite = r.data.card.side_1;
 			c.data.rueckseite = r.data.card.side_2;
+			c.data.infoVorderseite = r.data.card.info_1;
+			c.data.infoRueckseite = r.data.card.info_2;
 		});
 	})
+
+	c.hideSolution = function(solution) {
+		var result = "";
+		if (solution) {
+			result = "solution".replace(/./g, "*");
+		}
+		return result;
+	}
+
+	c.switchReadable = function() {
+		c.solutionReadable = !c.solutionReadable;
+	}
+
+	c.getReadableIcon = function() {
+		var result = c.solutionReadable ? "glyphicon-eye-close" : "glyphicon-eye-open";
+		return result;
+	}
+
+	c.getInfoIcon = function(isInfoVisible) {
+		return isInfoVisible ? "glyphicon glyphicon-chevron-down" : "glyphicon glyphicon-chevron-up";
+	}
+
+	c.switchInfoRueckseiteVisible = function() {
+		c.infoRueckseiteVisible = !c.infoRueckseiteVisible;
+	}
 }]]></client_script>
         <controller_as>c</controller_as>
         <css/>
@@ -40,7 +75,7 @@
 		var card = new GlideRecord('x_183655_karteikas_index_card');
 		if (card.get(input.cardSysID)) {
 			data.card = {};
-			$sp.getRecordDisplayValues(data.card, card, 'side_1, side_2');
+			$sp.getRecordDisplayValues(data.card, card, 'side_1, side_2, info_1, info_2');
 			console.log('Server side script card: ' + data.card);
 		}
 	}
@@ -51,42 +86,71 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2018-01-10 10:32:06</sys_created_on>
         <sys_id>6930b04edb6303007506771c8c961944</sys_id>
-        <sys_mod_count>22</sys_mod_count>
+        <sys_mod_count>91</sys_mod_count>
         <sys_name>karteikarteAnsicht</sys_name>
         <sys_package display_value="Karteikasten" source="x_183655_karteikas">7fd11715dbaf03007506771c8c961915</sys_package>
         <sys_policy/>
         <sys_scope display_value="Karteikasten">7fd11715dbaf03007506771c8c961915</sys_scope>
         <sys_update_name>sp_widget_6930b04edb6303007506771c8c961944</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2018-01-10 13:38:30</sys_updated_on>
+        <sys_updated_on>2018-01-11 10:17:11</sys_updated_on>
         <template><![CDATA[<div class="panel panel-default">
   <div class="panel-heading clearfix">
     <h3 class="panel-title col-md-9 pull-left">
       ${Karteikarte}
     </h3>     
   </div>
-  
+
+  <div class="panel-body">
+
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <div class="panel-title">
+          <div class="row">
+            <div class="col-6 pull left">
+              {{data.vorderseite}}
+            </div>
+            <div class="btn-group col-6 pull-right">
+              <button class="btn btn-default" ng-click="c.switchInfoVorderseiteVisible()"><span class="glyphicon {{c.getInfoIcon(c.infoRueckseiteVisible)}}"></span></button>
+            </div> 
+          </div>
+
+        </div>
+      </div>
+      <div class="panel-body" ng-show="c.infoVorderseiteVisible">
+        {{data.infoVorderseite}}
+      </div>
+    </div>
+  </div>
+
   <div class="panel-body">
     <div class="panel panel-info">
       <div class="panel-heading">
         <div class="panel-title">
-          {{data.vorderseite}}
+
+          <div class="row">
+            <div ng-show="c.solutionReadable" class="col-6 pull-left">
+              {{data.rueckseite}}
+            </div>
+            <div ng-hide="c.solutionReadable" class="col-6 pull-left">
+              {{c.hideSolution(data.rueckseite)}}
+            </div>
+
+            <div class="btn-group col-6 pull-right">
+              <button class="btn btn-default" ng-click="c.switchReadable()"><span class="glyphicon {{c.getReadableIcon()}}"></span></button>
+              <button class="btn btn-default" ng-click="c.switchInfoRueckseiteVisible()"><span class="glyphicon {{c.getInfoIcon(c.infoRueckseiteVisible)}}"></span></button>
+            </div>  
+
+          </div>
+
         </div>
+      </div>
+      <div class="panel-body" ng-show="c.infoRueckseiteVisible">
+        {{data.infoRueckseite}}
       </div>
     </div>
   </div>
-  
-    <div class="panel-body">
-    <div class="panel panel-info">
-      <div class="panel-heading">
-        <div class="panel-title">
-          {{data.rueckseite}}
-        </div>
-      </div>
-    </div>
-  </div>
-  
-  
+
 </div>]]></template>
     </sp_widget>
 </record_update>
