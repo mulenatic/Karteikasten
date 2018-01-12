@@ -24,6 +24,10 @@
 		$rootScope.$emit('selectCard', id);
 	}
 	
+	c.newCard = function() {
+		$rootScope.$emit('newCard');
+	}
+	
 	c.getCards = function() {
 		var page = c.pageNumber * numberItemsPerPage;
 		var result = c.data.indexCards.slice(page, page + numberItemsPerPage);
@@ -88,14 +92,14 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2018-01-08 14:48:11</sys_created_on>
         <sys_id>21a71b1ddbaf03007506771c8c961976</sys_id>
-        <sys_mod_count>116</sys_mod_count>
+        <sys_mod_count>118</sys_mod_count>
         <sys_name>Karteikarten Liste</sys_name>
         <sys_package display_value="Karteikasten" source="x_183655_karteikas">7fd11715dbaf03007506771c8c961915</sys_package>
         <sys_policy/>
         <sys_scope display_value="Karteikasten">7fd11715dbaf03007506771c8c961915</sys_scope>
         <sys_update_name>sp_widget_21a71b1ddbaf03007506771c8c961976</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2018-01-12 12:28:22</sys_updated_on>
+        <sys_updated_on>2018-01-12 14:09:20</sys_updated_on>
         <template><![CDATA[<div class="panel panel-default">
   <div class="panel-heading clearfix">
     <h3 class="panel-title pull-left">
@@ -103,6 +107,7 @@
     </h3>
     <div>
       <button class="btn btn-default pull-right" ng-click="c.switchSides()"><span class="glyphicon glyphicon-retweet"></span></button>
+      <button class="btn btn-default pull-right" ng-click="c.newCard()"><span class="glyphicon glyphicon-plus"></span></button>
     </div>    
   </div>
 

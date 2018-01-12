@@ -21,11 +21,15 @@
 			cardSysID: $rootScope.cardSysID
 		}).then(function(r){
 			console.log('Loaded card ' + r.data);
-			c.data.vorderseite = r.data.card.side_1;
-			c.data.rueckseite = r.data.card.side_2;
-			c.data.infoVorderseite = r.data.card.info_1;
-			c.data.infoRueckseite = r.data.card.info_2;
+			c.data.vorderseite = r.data.card.side_2;
+			c.data.rueckseite = r.data.card.side_1;
+			c.data.infoVorderseite = r.data.card.info_2;
+			c.data.infoRueckseite = r.data.card.info_1;
 		});
+	})
+	
+	$rootScope.$on('newCard', function(event, data){
+		c.data = {};
 	})
 
 	c.hideSolution = function(solution) {
@@ -92,14 +96,14 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2018-01-10 10:32:06</sys_created_on>
         <sys_id>6930b04edb6303007506771c8c961944</sys_id>
-        <sys_mod_count>104</sys_mod_count>
+        <sys_mod_count>113</sys_mod_count>
         <sys_name>karteikarteAnsicht</sys_name>
         <sys_package display_value="Karteikasten" source="x_183655_karteikas">7fd11715dbaf03007506771c8c961915</sys_package>
         <sys_policy/>
         <sys_scope display_value="Karteikasten">7fd11715dbaf03007506771c8c961915</sys_scope>
         <sys_update_name>sp_widget_6930b04edb6303007506771c8c961944</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2018-01-12 12:48:46</sys_updated_on>
+        <sys_updated_on>2018-01-12 14:07:21</sys_updated_on>
         <template><![CDATA[<div class="panel panel-default">
   <div class="panel-heading clearfix">
     <h3 class="panel-title col-md-9 pull-left">
@@ -145,7 +149,7 @@
       </div>
 
       <div class="panel-body" ng-show="c.infoRueckseiteVisible">
-        {{data.infoRueckseite}}
+        <textarea class="form-control" ng-model="c.data.infoRueckseite" readonly></textarea>
       </div>
 
     </div>

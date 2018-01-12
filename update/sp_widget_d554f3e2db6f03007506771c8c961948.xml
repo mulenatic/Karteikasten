@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sp_widget">
+    <sp_widget action="INSERT_OR_UPDATE">
+        <category>custom</category>
+        <client_script><![CDATA[function($rootScope) {
+	/* widget controller */
+	var c = this;
+
+	c.isVisible = false;
+
+	
+
+	$rootScope.$on('newCard', function(event, data){
+		c.isVisible = true;
+		c.data = {
+			vorderseite: "a",
+			rueckseite: "b",
+			infoVorderseite: "c",
+			infoRueckseite: "d"
+		};
+	})
+	
+	c.saveCard = function() {
+		c.data.saveCard = true;
+		c.server.update();
+		c.isVisible = false;
+	}
+
+	
+	
+	
+}]]></client_script>
+        <controller_as>c</controller_as>
+        <css/>
+        <data_table>sp_instance</data_table>
+        <demo_data/>
+        <description/>
+        <docs/>
+        <field_list/>
+        <has_preview>false</has_preview>
+        <id>karteikarteanlegen</id>
+        <internal>false</internal>
+        <link/>
+        <name>karteikarteAnlegen</name>
+        <option_schema/>
+        <public>false</public>
+        <roles/>
+        <script><![CDATA[(function() {
+	
+	if (input && input.cardSysID) {
+		console.log('Server side script: ' + input.cardSysID);
+		var card = new GlideRecord('x_183655_karteikas_index_card');
+		if (card.get(input.cardSysID)) {
+			data.card = {};
+			$sp.getRecordDisplayValues(data.card, card, 'side_1, side_2, info_1, info_2');
+			console.log('Server side script card: ' + data.card);
+		}
+	}
+	
+	if (data.saveCard && data.saveCard == true) {
+		
+		var newCard = new GlideRecord('x_183655_karteikas_index_card');
+		newCard.initialize();
+		$sp.getRecordDisplayValues(newCard, data.card, 'side_1, side_2, info_1, info_2');
+		newCard.insert();
+		
+		
+	}
+
+})();]]></script>
+        <servicenow>false</servicenow>
+        <sys_class_name>sp_widget</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2018-01-12 14:05:56</sys_created_on>
+        <sys_id>d554f3e2db6f03007506771c8c961948</sys_id>
+        <sys_mod_count>10</sys_mod_count>
+        <sys_name>karteikarteAnlegen</sys_name>
+        <sys_package display_value="Karteikasten" source="x_183655_karteikas">7fd11715dbaf03007506771c8c961915</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Karteikasten">7fd11715dbaf03007506771c8c961915</sys_scope>
+        <sys_update_name>sp_widget_d554f3e2db6f03007506771c8c961948</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2018-01-12 14:38:52</sys_updated_on>
+        <template><![CDATA[<div class="panel panel-default">
+  <div class="panel-heading clearfix">
+    <h3 class="panel-title col-md-9 pull-left">
+      ${Karteikarte anlegen}
+    </h3>     
+    <button class="btn btn-default pull-right" style="{font: 0.7em;}" ng-click="c.safeCard()"><span class="glyphicon glyphicon-save-file"></span></button>
+  </div>
+
+  <div class="panel-body" ng-show="c.isVisible">
+
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <div class="row">
+          <h4 class="panel-title pull-left">
+            {{data.vorderseite}}
+          </h4>
+        </div>
+      </div>
+
+      <div class="panel-body">
+        {{data.infoVorderseite}}
+      </div>
+    </div>
+
+    <div class="panel panel-info">
+
+      <div class="panel-heading">
+        <div class="row">
+
+          <h4 class="panel-title pull-left">
+            {{data.rueckseite}}
+          </h4>
+
+        </div>
+      </div>
+
+      <div class="panel-body" >
+        <textarea class="form-control" ng-model="c.data.infoRueckseite" readonly></textarea>
+      </div>
+
+    </div>
+  </div>
+
+</div>]]></template>
+    </sp_widget>
+</record_update>
