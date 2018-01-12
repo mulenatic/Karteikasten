@@ -6,6 +6,9 @@
 	/* widget controller */
 	var c = this;
 
+	c.update = function() {
+		c.server.refresh();
+	}
 
 }]]></client_script>
         <controller_as>c</controller_as>
@@ -20,21 +23,26 @@
         <internal>false</internal>
         <link/>
         <name>zeit_zaehler</name>
-        <option_schema/>
+        <option_schema>[{"hint":"Der Titel des Widgets.","name":"titel","section":"other","default_value":"Zeit bis Sylvester 2018","label":"Titel","type":"string"},{"hint":"Zeitpunkt, bis zu dem die verbleibende Zeit berechnet werden soll. Format: \"yyyy-MM-dd HH:mm:ss\" in UTC.","name":"zeitpunkt","section":"other","default_value":"2018-12-31 23:59:59","label":"Zeitpunkt","type":"string"}]</option_schema>
         <public>false</public>
         <roles/>
         <script><![CDATA[(function() {
 	/* populate the 'data' object */
 	/* e.g., data.table = $sp.getValue('table'); */
-	
+
 	var currentTime = new GlideDateTime();
-	var endTime = new GlideDateTime("2018-02-10 11:45:00");
+	var endTime = new GlideDateTime(options.zeitpunkt);
 
 	data.currentTime = currentTime.getDisplayValue();
 	data.endTime = endTime.getDisplayValue();
+
+	data.text = options.titel;
+
+	var durationArray = GlideDateTime.subtract(currentTime, endTime).getDurationValue().split(" ");
+	var timeArray = durationArray[1].split(":");
+	var durationText = durationArray[0] + " Tage, " + timeArray[0] + " Stunden, " + timeArray[1] + " Minuten, " + timeArray[2] + " Sekunden.";
 	
-	data.text = "Zeit bis zum Wiedersehen:";
-	data.remainingTime = GlideDateTime.subtract(currentTime, endTime).getDisplayValue();
+	data.remainingTime = durationText;
 
 
 
@@ -44,19 +52,22 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2018-01-11 11:17:22</sys_created_on>
         <sys_id>d2244a92db2303007506771c8c961987</sys_id>
-        <sys_mod_count>48</sys_mod_count>
+        <sys_mod_count>75</sys_mod_count>
         <sys_name>zeit_zaehler</sys_name>
         <sys_package display_value="Karteikasten" source="x_183655_karteikas">7fd11715dbaf03007506771c8c961915</sys_package>
         <sys_policy/>
         <sys_scope display_value="Karteikasten">7fd11715dbaf03007506771c8c961915</sys_scope>
         <sys_update_name>sp_widget_d2244a92db2303007506771c8c961987</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2018-01-11 13:40:55</sys_updated_on>
-        <template><![CDATA[<div class="panel panel-defaul">
-  <div class="panel-body">
-    <h3>
+        <sys_updated_on>2018-01-12 11:27:58</sys_updated_on>
+        <template><![CDATA[<div class="panel panel-default">
+  <div class="panel-heading clearfix">
+    <h3 class="panel-title pull-left">
       {{data.text}} 
     </h3>
+    <button class="btn btn-default pull-right" style="padding-top: 7.5px;" ng-click="c.update()"><span class="glyphicon glyphicon-retweet"></span></button>
+  </div>
+  <div class="panel-body">
     {{c.data.remainingTime}}
   </div>
 </div>
