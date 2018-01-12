@@ -52,20 +52,20 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2018-01-11 11:17:22</sys_created_on>
         <sys_id>d2244a92db2303007506771c8c961987</sys_id>
-        <sys_mod_count>75</sys_mod_count>
+        <sys_mod_count>76</sys_mod_count>
         <sys_name>zeit_zaehler</sys_name>
         <sys_package display_value="Karteikasten" source="x_183655_karteikas">7fd11715dbaf03007506771c8c961915</sys_package>
         <sys_policy/>
         <sys_scope display_value="Karteikasten">7fd11715dbaf03007506771c8c961915</sys_scope>
         <sys_update_name>sp_widget_d2244a92db2303007506771c8c961987</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2018-01-12 11:27:58</sys_updated_on>
+        <sys_updated_on>2018-01-12 12:32:04</sys_updated_on>
         <template><![CDATA[<div class="panel panel-default">
   <div class="panel-heading clearfix">
     <h3 class="panel-title pull-left">
       {{data.text}} 
     </h3>
-    <button class="btn btn-default pull-right" style="padding-top: 7.5px;" ng-click="c.update()"><span class="glyphicon glyphicon-retweet"></span></button>
+    <button class="btn btn-default pull-right" style="padding-top: 7.5px;" ng-click="c.update()"><span class="glyphicon glyphicon-refresh"></span></button>
   </div>
   <div class="panel-body">
     {{c.data.remainingTime}}

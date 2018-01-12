@@ -17,17 +17,22 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2018-01-10 10:34:51</sys_created_on>
         <sys_id>31d0f00edb6303007506771c8c961949</sys_id>
-        <sys_mod_count>0</sys_mod_count>
+        <sys_mod_count>5</sys_mod_count>
         <sys_name/>
         <sys_package display_value="Karteikasten" source="x_183655_karteikas">7fd11715dbaf03007506771c8c961915</sys_package>
         <sys_policy/>
         <sys_scope display_value="Karteikasten">7fd11715dbaf03007506771c8c961915</sys_scope>
         <sys_update_name>sp_instance_31d0f00edb6303007506771c8c961949</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2018-01-10 10:34:51</sys_updated_on>
+        <sys_updated_on>2018-01-12 12:30:21</sys_updated_on>
         <title/>
         <url/>
-        <widget_parameters/>
+        <widget_parameters><![CDATA[{
+	"anzahl_karten": {
+		"value": 10,
+		"displayValue": "10"
+	}
+}]]></widget_parameters>
     </sp_instance>
     <sys_translated_text action="delete_multiple" query="documentkey=31d0f00edb6303007506771c8c961949"/>
 </record_update>
